@@ -1,0 +1,170 @@
+.hero {
+  position: relative;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
+  overflow: hidden;
+  background-color: var(--background);
+}
+
+.backgroundGlow {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.15) 0%, rgba(10, 10, 10, 0) 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 107, 0, 0.1);
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 2rem;
+}
+
+.title {
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 540px;
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.statItem h3 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+.statItem p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.statDivider {
+  width: 1px;
+  height: 48px;
+  background-color: var(--border);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, var(--surface), var(--background));
+  border: 1px solid var(--border);
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: radial-gradient(circle at 50% 50%, #2a1100 0%, var(--surface) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.sportsLines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.03) 49%, rgba(255,255,255,0.03) 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.03) 49%, rgba(255,255,255,0.03) 51%, transparent 52%);
+  background-size: 60px 60px;
+}
+
+.athleteSilhouette {
+  width: 80%;
+  height: 90%;
+  background: linear-gradient(to top, rgba(255, 107, 0, 0.8), transparent);
+  clip-path: polygon(20% 100%, 80% 100%, 60% 0, 40% 0);
+  opacity: 0.3;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .subtitle {
+    margin: 0 auto 2.5rem;
+  }
+  
+  .ctaGroup {
+    justify-content: center;
+  }
+  
+  .stats {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  
+  .statDivider {
+    display: none;
+  }
+  
+  .statItem {
+    width: 45%;
+  }
+
+  .ctaGroup {
+    flex-direction: column;
+  }
+}

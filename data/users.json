@@ -1,0 +1,22 @@
+[
+  {
+    "id": "f5a6c66f-71d6-4504-a6d5-4e0eb4c427e0",
+    "name": "abc",
+    "email": "abc@gmail.com",
+    "phone": "1234567890",
+    "salt": "90655cfb803cae037eeb5b4ebc4c75e9",
+    "hash": "c06e1706bbad8fa075d9798f26255ef99717446cff48e66277adb1efc42dc095e30549e765759bc0c8eeef8a9adf4ef7f7731986c13466087ab4ed8a55852956",
+    "role": "user",
+    "createdAt": "2026-03-16T06:37:19.042Z"
+  },
+  {
+    "id": "bdfc1993-f129-4599-a452-fa80d36c4280",
+    "name": "DAKSH BARALIYA",
+    "email": "dakshbaraliya2006@gmail.com",
+    "phone": "09045926114",
+    "salt": "49a4d5a264dba1f920a4187a667d6ff8",
+    "hash": "555767f700631ca9bb840bbcfc0256ec9000142ff435aaf69902c4835890804381f540337984e31bad04152417b3d6c352b683240e03cabcbf5145d73e8b7e44",
+    "role": "user",
+    "createdAt": "2026-03-16T12:59:18.527Z"
+  }
+]

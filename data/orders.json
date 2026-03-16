@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ORD-0F424F10",
+    "createdAt": "2026-03-16T16:02:58.078Z",
+    "status": "Pending",
+    "userId": "guest",
+    "userName": "DAKSH BARALIYA",
+    "userEmail": "dakshbaraliya2006@gmail.com",
+    "userPhone": "09045926114",
+    "shippingAddress": "51 3A preet vhar, MEERUT, Uttar Pradesh - 250004",
+    "items": [
+      {
+        "id": 1773670135161,
+        "title": "yuyg",
+        "qty": 1,
+        "price": "₹7787",
+        "color": "#61177c",
+        "image": ""
+      }
+    ],
+    "total": 7787,
+    "paymentMethod": "Stripe Online Payment"
+  },
+  {
+    "id": "ORD-9B006994",
+    "createdAt": "2026-03-16T14:57:51.511Z",
+    "status": "Pending",
+    "userId": "bdfc1993-f129-4599-a452-fa80d36c4280",
+    "userName": "DAKSH BARALIYA",
+    "userEmail": "dakshbaraliya2006@gmail.com",
+    "userPhone": "09045926114",
+    "shippingAddress": "51 3A preet vhar, MEERUT, Uttar Pradesh - 250004",
+    "items": [
+      {
+        "id": 1773670135161,
+        "title": "yuyg",
+        "qty": 1,
+        "price": "₹7787",
+        "color": "#61177c",
+        "image": ""
+      }
+    ],
+    "total": 7787,
+    "paymentMethod": "Stripe Online Payment"
+  },
+  {
+    "id": "ORD-CADE00F5",
+    "createdAt": "2026-03-16T12:14:27.120Z",
+    "status": "Pending",
+    "userId": "guest",
+    "userName": "DAKSH BARALIYA",
+    "userEmail": "dakshbaraliya2006@gmail.com",
+    "userPhone": "09045926114",
+    "shippingAddress": "51 3A preet vhar, MEERUT, Uttar Pradesh - 250004",
+    "items": [
+      {
+        "id": 1773647050961,
+        "title": "new",
+        "qty": 1,
+        "price": "44₹",
+        "color": "#ff6b00"
+      },
+      {
+        "id": 6,
+        "title": "Premium Varsity Jacket",
+        "qty": 1,
+        "price": "₹1899",
+        "color": "#111111"
+      }
+    ],
+    "total": 1943,
+    "paymentMethod": "Online (Simulated)"
+  }
+]
