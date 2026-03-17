@@ -49,7 +49,7 @@ export default function AboutPage() {
         
         <p style={{ marginBottom: "1.5rem" }}>
           At ATHIX SPORTS, we prioritize quality, using premium fabrics to ensure comfort, durability, and performance. 
-          Whether you're outfitting a team or creating unique promotional apparel, we offer customization options to reflect your identity.
+          Whether you&apos;re outfitting a team or creating unique promotional apparel, we offer customization options to reflect your identity.
         </p>
 
         <p style={{ marginBottom: "2rem" }}>

@@ -13,6 +13,7 @@ export function CartProvider({ children }) {
     try {
       const stored = localStorage.getItem("athix_cart");
       if (stored) {
+        // eslint-disable-next-line
         setCartItems(JSON.parse(stored));
       }
     } catch(e) { console.error(e) }

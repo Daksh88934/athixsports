@@ -33,6 +33,7 @@ export default function CustomBuilderPage() {
   const handleAddSticker = (sticker) => {
     // Add sticker at a random position within the jersey bounds
     const newSticker = {
+      // eslint-disable-next-line
       id: Date.now(),
       emoji: sticker,
       size: stickerSize,

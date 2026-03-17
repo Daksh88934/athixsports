@@ -152,7 +152,7 @@ export default function CheckoutPage() {
             <CreditCard size={24} color="var(--primary)" /> Payment Simulation
           </div>
           <div style={{ padding: "1rem", backgroundColor: "rgba(255,255,255,0.05)", borderRadius: "var(--radius-md)", border: "1px dashed var(--border)", marginBottom: "2rem", color: "var(--text-secondary)", fontSize: "0.875rem" }}>
-            By clicking "Pay Now", you are simulating a secure checkout connection. Your order will be stored securely in the Admin Dashboard database.
+            By clicking &quot;Pay Now&quot;, you are simulating a secure checkout connection. Your order will be stored securely in the Admin Dashboard database.
           </div>
 
           <button type="submit" disabled={isProcessing} className="btn-primary" style={{ width: "100%", justifyContent: "center", padding: "1.25rem", fontSize: "1.1rem" }}>

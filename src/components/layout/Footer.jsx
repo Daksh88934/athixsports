@@ -11,7 +11,7 @@ export default function Footer() {
             <img src="/image.png" alt="ATHIX" style={{ height: "40px" }} />
           </Link>
           <p className={styles.description}>
-            Meerut's premier destination for custom sports apparel, tournament kits, and high-performance gym wear. Wear The Win.
+            Meerut&apos;s premier destination for custom sports apparel, tournament kits, and high-performance gym wear. Wear The Win.
           </p>
         </div>
 

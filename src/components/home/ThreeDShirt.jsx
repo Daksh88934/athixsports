@@ -12,9 +12,10 @@ function ShirtModel() {
   const decalTexture = useTexture("/trending_alien.png");
   
   // Set material properties to a vibrant blue shade
-  materials.lambert1.color = new THREE.Color("#2563eb"); // Royal Blue
-  materials.lambert1.roughness = 0.8;
-  materials.lambert1.metalness = 0.1;
+  const material = materials.lambert1.clone();
+  material.color = new THREE.Color("#2563eb"); // Royal Blue
+  material.roughness = 0.8;
+  material.metalness = 0.1;
 
   return (
     <group dispose={null}>
@@ -22,7 +23,7 @@ function ShirtModel() {
         castShadow
         receiveShadow
         geometry={nodes.T_Shirt_male.geometry}
-        material={materials.lambert1}
+        material={material}
         scale={1.2}
       >
         <Decal

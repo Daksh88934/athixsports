@@ -72,7 +72,7 @@ export default function ContactPage() {
           Contact <span className="text-gradient">Us</span>
         </h1>
         <p style={{ color: "var(--text-secondary)", fontSize: "1.125rem", maxWidth: "600px", margin: "0 auto" }}>
-          Ready to elevate your team's look? Reach out to us today to discuss your requirements, custom designs, and bulk orders.
+          Ready to elevate your team&apos;s look? Reach out to us today to discuss your requirements, custom designs, and bulk orders.
         </p>
       </div>
 

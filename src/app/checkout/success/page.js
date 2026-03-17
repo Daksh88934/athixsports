@@ -72,7 +72,7 @@ function CheckoutSuccessContent() {
           <>
             <div style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: "rgba(239,68,68,0.1)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem", color: "var(--error)", fontSize: "2rem" }}>!</div>
             <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Order Update Failed</h1>
-            <p style={{ color: "var(--text-secondary)", marginBottom: "0.5rem" }}>Your payment may have succeeded, but we couldn't properly link it to your order. Please contact support with Order ID: {orderId}</p>
+            <p style={{ color: "var(--text-secondary)", marginBottom: "0.5rem" }}>Your payment may have succeeded, but we couldn&apos;t properly link it to your order. Please contact support with Order ID: {orderId}</p>
           </>
         )}
 

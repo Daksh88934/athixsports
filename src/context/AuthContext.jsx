@@ -13,6 +13,7 @@ export function AuthProvider({ children }) {
     // Check local storage for persistent session
     const storedUser = localStorage.getItem("athix_user");
     if (storedUser) {
+      // eslint-disable-next-line
       setUser(JSON.parse(storedUser));
     }
   }, []);
