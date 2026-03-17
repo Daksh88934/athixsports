@@ -6,7 +6,9 @@ import { useCart } from "@/context/CartContext";
 import { motion } from "framer-motion";
 import { CheckCircle, Loader2 } from "lucide-react";
 
-export default function CheckoutSuccessPage() {
+import { Suspense } from "react";
+
+function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { clearCart } = useCart();
@@ -79,5 +81,18 @@ export default function CheckoutSuccessPage() {
         </button>
       </motion.div>
     </div>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "80vh", flexDirection: "column", gap: "1rem" }}>
+        <Loader2 size={48} className="spinner" color="var(--primary)" />
+        <p>Loading...</p>
+      </div>
+    }>
+      <CheckoutSuccessContent />
+    </Suspense>
   );
 }
