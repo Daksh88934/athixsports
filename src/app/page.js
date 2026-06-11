@@ -142,13 +142,9 @@ export default function HomePage() {
 
             {/* Stats */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-              style={{ display: "flex", borderTop: "1px solid var(--border)", paddingTop: "1.75rem" }}>
+              className="hero-stats">
               {[["1.2L+", "Jerseys Delivered"], ["2700+", "Happy Clients"], ["500+", "Locations Served"]].map(([val, label], i) => (
-                <div key={label} style={{
-                  flex: 1, textAlign: "center",
-                  borderRight: i < 2 ? "1px solid var(--border)" : "none",
-                  padding: "0 1rem"
-                }}>
+                <div key={label} className="hero-stats-item">
                   <h3 style={{ fontSize: "1.8rem", fontWeight: 900, color: "var(--text)", marginBottom: "0.2rem" }}>{val}</h3>
                   <p style={{ color: "var(--text-secondary)", fontSize: "0.78rem" }}>{label}</p>
                 </div>
@@ -165,8 +161,33 @@ export default function HomePage() {
 
         <style>{`
           .hero-grid { grid-template-columns: 1fr 1fr; }
+          .hero-stats {
+            display: flex;
+            border-top: 1px solid var(--border);
+            padding-top: 1.75rem;
+          }
+          .hero-stats-item {
+            flex: 1;
+            text-align: center;
+            border-right: 1px solid var(--border);
+            padding: 0 1rem;
+          }
+          .hero-stats-item:last-child {
+            border-right: none;
+          }
           @media (max-width: 768px) {
             .hero-grid { grid-template-columns: 1fr !important; }
+          }
+          @media (max-width: 600px) {
+            .hero-stats {
+              display: grid !important;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 1.5rem;
+            }
+            .hero-stats-item {
+              border-right: none !important;
+              padding: 0;
+            }
           }
         `}</style>
       </section>

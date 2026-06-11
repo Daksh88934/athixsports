@@ -30,7 +30,7 @@ export default function AboutPage() {
       {/* Stats */}
       <section style={{ background: "var(--surface)", padding: "3rem 0", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2rem", textAlign: "center" }}>
+          <div className="grid-4" style={{ gap: "2rem", textAlign: "center" }}>
             {[
               ["1.2L+", "Jerseys Delivered", Award],
               ["2700+", "Happy Clients", Users],
@@ -50,7 +50,7 @@ export default function AboutPage() {
       {/* Mission */}
       <section style={{ padding: "5rem 0" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+          <div className="about-mission-grid" style={{ display: "grid", gap: "4rem", alignItems: "center" }}>
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <span style={{ display: "inline-block", padding: "0.3rem 0.9rem", background: "rgba(255,107,0,0.15)", color: "var(--primary)", borderRadius: 100, fontSize: "0.8rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "1rem" }}>Our Mission</span>
               <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 900, marginBottom: "1.5rem" }}>
@@ -101,7 +101,7 @@ export default function AboutPage() {
           </h2>
           <p style={{ color: "var(--text-secondary)", marginBottom: "2.5rem" }}>35-B, Street No.2, Nehru Nagar, Meerut, Uttar Pradesh</p>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", maxWidth: 700, margin: "0 auto" }}>
+          <div className="grid-3" style={{ gap: "1.5rem", maxWidth: 700, margin: "0 auto" }}>
             {[
               ["📍", "Address", "35-B, Street No.2,\nNehru Nagar, Meerut"],
               ["📞", "Phone", "+91 8755022067\n+91 9411262264"],
@@ -122,6 +122,18 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <style>{`
+        .about-mission-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        @media (max-width: 768px) {
+          .about-mission-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
