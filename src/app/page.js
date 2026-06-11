@@ -88,7 +88,7 @@ export default function HomePage() {
       {/* ===== HERO ===== */}
       <section style={{
         minHeight: "calc(100vh - 80px)", display: "flex", alignItems: "center",
-        position: "relative", overflow: "hidden",
+        position: "relative",
         background: "radial-gradient(ellipse at 65% 50%, rgba(255,107,0,0.08) 0%, transparent 65%)"
       }}>
         {/* Grid bg */}
