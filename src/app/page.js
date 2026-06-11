@@ -98,9 +98,9 @@ export default function HomePage() {
           backgroundSize: "60px 60px", pointerEvents: "none"
         }} />
 
-        <div className="container" style={{
+        <div className="container hero-grid" style={{
           position: "relative", zIndex: 1, padding: "4rem 1.5rem",
-          display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center"
+          display: "grid", gap: "3rem", alignItems: "center"
         }}>
 
           {/* LEFT */}
@@ -164,6 +164,7 @@ export default function HomePage() {
         </div>
 
         <style>{`
+          .hero-grid { grid-template-columns: 1fr 1fr; }
           @media (max-width: 768px) {
             .hero-grid { grid-template-columns: 1fr !important; }
           }
@@ -204,7 +205,7 @@ export default function HomePage() {
             </h2>
             <p style={{ color: "var(--text-secondary)", fontSize: "1rem" }}>From concept to reality in 9 simple steps</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }}>
+          <div className="grid-3" style={{ gap: "1.25rem" }}>
             {PROCESS_STEPS.map((step, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 3) * 0.1 }}
