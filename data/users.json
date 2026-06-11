@@ -1,0 +1,32 @@
+[
+  {
+    "id": "6400467d-7939-4469-8369-5360c4b97810",
+    "name": "Test User",
+    "email": "test@test.com",
+    "phone": "9999999999",
+    "salt": "c5a5570297026ce2fe25f681ba2ce7ca",
+    "hash": "d55227cde3a8651c4b0284094e145622c720814427e13576e7539a442e3ace97f2385f656d820719ed1254d833674feaecbc5e1c4483420c8a81fd799b58e2bf",
+    "role": "user",
+    "createdAt": "2026-06-09T17:38:10.565Z"
+  },
+  {
+    "id": "4c7cc19d-8d3a-430e-9f58-d0ef8b45059a",
+    "name": "DAKSH BARALIYA",
+    "email": "dakshbaraliya2006@gmail.com",
+    "phone": "08796424643",
+    "salt": "c2cadcb337c7e5842c8a914bbb363fef",
+    "hash": "d179ba1d43466aacf73332d942ed7e42d273f72bfa7e7e8153f858b9f1133da80be2a88ee5afa66b5a57f01b36ee8659319efcd1519b4ad02e4686bc68d9c503",
+    "role": "user",
+    "createdAt": "2026-06-09T17:40:06.194Z"
+  },
+  {
+    "id": "def53352-061b-4593-a573-b16699e0986d",
+    "name": "DAKSH BARALIYA",
+    "email": "dakshbaraliya@gmail.com",
+    "phone": "09045926114",
+    "salt": "be3f528c914bea5bd24bc0e27bea45db",
+    "hash": "362406987d40202df1197f7f03ed350dd5f4ca56f711fc005171157002281e02af0dc706b0d8de20ff689207ed32dd23e986e9a24ec8e6022716194c583225ae",
+    "role": "user",
+    "createdAt": "2026-06-09T17:40:38.038Z"
+  }
+]
