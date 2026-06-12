@@ -24,6 +24,28 @@
   --radius-xl: 24px;
 }
 
+[data-theme="light"] {
+  --background: #fbfbfb;
+  --surface: #ffffff;
+  --surface-2: #f3f4f6;
+  --border: #e5e7eb;
+  --text: #111111;
+  --text-secondary: #6b7280;
+}
+
+/* Theme Adaptive Logo Styling */
+.theme-logo {
+  mix-blend-mode: screen;
+  filter: drop-shadow(0px 2px 6px rgba(255,107,0,0.5)) drop-shadow(0px 4px 12px rgba(255,107,0,0.25));
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+[data-theme="light"] .theme-logo {
+  filter: invert(1) drop-shadow(0px 2px 6px rgba(255,107,0,0.3)) drop-shadow(0px 4px 12px rgba(255,107,0,0.15));
+  mix-blend-mode: multiply;
+}
+
 html {
   scroll-behavior: smooth;
 }

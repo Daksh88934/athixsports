@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Menu, X, User, LogOut, ChevronDown } from "lucide-react";
+import { ShoppingBag, Menu, X, User, LogOut, ChevronDown, Sun, Moon } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
@@ -15,6 +15,20 @@ export default function Navbar() {
   const { count, setIsOpen } = useCart();
   const { user, logout } = useAuth();
   const pathname = usePathname();
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme") || "dark";
+    setTheme(saved);
+    document.documentElement.setAttribute("data-theme", saved);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    localStorage.setItem("theme", next);
+    document.documentElement.setAttribute("data-theme", next);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -34,7 +48,7 @@ export default function Navbar() {
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
       padding: scrolled ? "0.6rem 0" : "1rem 0",
-      background: scrolled ? "rgba(10,10,10,0.97)" : "var(--background)",
+      background: scrolled ? (theme === "dark" ? "rgba(10,10,10,0.97)" : "rgba(251,251,251,0.97)") : "var(--background)",
       backdropFilter: scrolled ? "blur(20px)" : "none",
       borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
       transition: "all 0.3s ease"
@@ -44,13 +58,11 @@ export default function Navbar() {
           <img 
             src="/logo.jpg" 
             alt="ATHIX" 
+            className="theme-logo"
             style={{ 
               height: 40, 
               display: "block",
-              mixBlendMode: "screen",
-              filter: "drop-shadow(0px 2px 6px rgba(255,107,0,0.5)) drop-shadow(0px 4px 12px rgba(255,107,0,0.25))",
               transition: "transform 0.3s ease",
-              cursor: "pointer"
             }} 
             onMouseEnter={e => e.target.style.transform = "scale(1.05) translateY(-1px)"}
             onMouseLeave={e => e.target.style.transform = "scale(1) translateY(0px)"}
@@ -72,6 +84,19 @@ export default function Navbar() {
 
         {/* Right side */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          {/* Theme Toggle */}
+          <button onClick={toggleTheme} style={{
+            background: "none", border: "none",
+            color: "var(--text)", cursor: "pointer", padding: "0.5rem",
+            display: "flex", alignItems: "center", justifyContent: "center"
+          }}>
+            {theme === "dark" ? (
+              <Sun size={20} fill="var(--primary)" color="var(--primary)" />
+            ) : (
+              <Moon size={20} fill="#111" color="#111" />
+            )}
+          </button>
+
           {/* Cart */}
           <button onClick={() => setIsOpen(true)} style={{
             position: "relative", background: "none", border: "none",

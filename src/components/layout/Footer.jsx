@@ -14,10 +14,9 @@ export default function Footer() {
               <img 
                 src="/logo.jpg" 
                 alt="ATHIX" 
+                className="theme-logo"
                 style={{ 
                   height: 40,
-                  mixBlendMode: "screen",
-                  filter: "drop-shadow(0px 2px 6px rgba(255,107,0,0.5))",
                   transition: "transform 0.3s ease"
                 }} 
                 onMouseEnter={e => e.target.style.transform = "scale(1.05)"}
