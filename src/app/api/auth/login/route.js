@@ -8,8 +8,8 @@ export async function POST(req) {
     if (!email || !password)
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
 
-    if (email === "admin@gmail.com" && password === "athix")
-      return NextResponse.json({ success: true, user: { id: "admin-0", name: "ATHIX Admin", email: "admin@gmail.com", role: "admin" } });
+    if (email === "athixsports@gmail.com" && password === "Roochir@05")
+      return NextResponse.json({ success: true, user: { id: "admin-0", name: "ATHIX Admin", email: "athixsports@gmail.com", role: "admin" } });
 
     const users = await readData("users.json");
     const user = users.find(u => u.email === email);

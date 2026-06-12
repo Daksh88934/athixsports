@@ -197,7 +197,7 @@ export default function LoginPage() {
           Don't have an account? <Link href="/signup" style={{ color: "var(--primary)", fontWeight: 600 }}>Sign Up</Link>
         </p>
         <p style={{ textAlign: "center", marginTop: "0.5rem", color: "var(--text-secondary)", fontSize: "0.8rem" }}>
-          Admin: admin@gmail.com / athix
+          Admin: athixsports@gmail.com / Roochir@05
         </p>
       </motion.div>
     </div>
