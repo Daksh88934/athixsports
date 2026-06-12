@@ -87,7 +87,11 @@ export default function AdminPage() {
       if (res.ok) {
         showToast(editingProduct ? "Product updated!" : "Product added!");
         setShowModal(false);
-        fetchAll();
+        if (editingProduct) {
+          setProducts(prev => prev.map(p => p.id === data.product.id ? data.product : p));
+        } else {
+          setProducts(prev => [...prev, data.product]);
+        }
       } else {
         showToast(data.error || "Failed to save", "error");
       }
@@ -98,19 +102,28 @@ export default function AdminPage() {
   const deleteProduct = async (id) => {
     if (!confirm("Delete this product?")) return;
     const res = await fetch(`/api/admin/products?id=${id}`, { method: "DELETE" });
-    if (res.ok) { showToast("Product deleted"); fetchAll(); }
-    else showToast("Failed to delete", "error");
+    if (res.ok) {
+      showToast("Product deleted");
+      setProducts(prev => prev.filter(p => p.id !== id));
+    } else {
+      showToast("Failed to delete", "error");
+    }
   };
 
   const updateOrderStatus = async (id, status) => {
     const res = await fetch("/api/admin/orders", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status }) });
-    if (res.ok) fetchAll();
+    if (res.ok) {
+      setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o));
+    }
   };
 
   const addStock = async (product, qty) => {
     const newStock = (product.stock || 0) + qty;
     const res = await fetch("/api/admin/products", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...product, stock: newStock }) });
-    if (res.ok) { showToast(`Stock updated to ${newStock}`); fetchAll(); }
+    if (res.ok) {
+      showToast(`Stock updated to ${newStock}`);
+      setProducts(prev => prev.map(p => p.id === product.id ? { ...p, stock: newStock } : p));
+    }
   };
 
   // Analytics
