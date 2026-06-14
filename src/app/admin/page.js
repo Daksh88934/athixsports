@@ -13,7 +13,21 @@ const TABS = ["Dashboard", "Products", "Orders", "Users"];
 const CATEGORIES = ["Team Kits", "Jerseys", "Training Wear", "Accessories", "Cricket", "Football", "Basketball"];
 const ORDER_STATUSES = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
 
-const EMPTY_PRODUCT = { title: "", category: "", price: "", color: "#ff6b00", inStock: true, image: "", stock: 0, description: "" };
+const EMPTY_PRODUCT = {
+  title: "",
+  category: "",
+  price: "",
+  color: "#ff6b00",
+  inStock: true,
+  image: "",
+  images: ["", "", "", "", ""],
+  stock: 0,
+  description: "",
+  design: "",
+  fit: "",
+  fabric: "",
+  washCare: ""
+};
 
 export default function AdminPage() {
   const { user, logout } = useAuth();
@@ -58,7 +72,15 @@ export default function AdminPage() {
   };
 
   const openAdd = () => { setForm(EMPTY_PRODUCT); setEditingProduct(null); setShowModal(true); };
-  const openEdit = (p) => { setForm({ ...p }); setEditingProduct(p); setShowModal(true); };
+  const openEdit = (p) => {
+    setForm({
+      ...EMPTY_PRODUCT,
+      ...p,
+      images: p.images || [p.image || "", "", "", "", ""]
+    });
+    setEditingProduct(p);
+    setShowModal(true);
+  };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -73,6 +95,33 @@ export default function AdminPage() {
       if (res.ok) { setForm(prev => ({ ...prev, image: data.imageUrl })); showToast("Image uploaded!"); }
       else showToast(data.error || "Upload failed", "error");
     } catch { showToast("Upload failed", "error"); }
+    setUploading(false);
+  };
+
+  const handleImageUploadIndex = async (index, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { showToast("Image too large (max 5MB)", "error"); return; }
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (res.ok) {
+        setForm(prev => {
+          const imgs = [...(prev.images || ["", "", "", "", ""])];
+          imgs[index] = data.imageUrl;
+          const mainImg = index === 0 ? data.imageUrl : (prev.image || data.imageUrl);
+          return { ...prev, images: imgs, image: mainImg };
+        });
+        showToast(`Image ${index + 1} uploaded!`);
+      } else {
+        showToast(data.error || "Upload failed", "error");
+      }
+    } catch {
+      showToast("Upload failed", "error");
+    }
     setUploading(false);
   };
 
@@ -227,46 +276,58 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                {/* Image Upload */}
+                {/* Images (Up to 5) */}
                 <div>
-                  <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.5rem", display: "block" }}>Product Image</label>
-                  <div style={{ display: "grid", gridTemplateColumns: form.image ? "1fr auto" : "1fr", gap: "0.75rem", alignItems: "start" }}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                      {/* File Upload Button */}
-                      <label style={{
-                        display: "flex", alignItems: "center", justifyContent: "center", gap: "0.6rem",
-                        padding: "0.8rem", border: "2px dashed var(--border)", borderRadius: "var(--radius-md)",
-                        cursor: "pointer", background: "var(--background)", transition: "all 0.2s",
-                        color: uploading ? "var(--primary)" : "var(--text-secondary)", fontSize: "0.88rem", fontWeight: 500
-                      }}
-                        onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--primary)"; e.currentTarget.style.color = "var(--primary)"; }}
-                        onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = uploading ? "var(--primary)" : "var(--text-secondary)"; }}
-                      >
-                        {uploading
-                          ? <><RefreshCw size={16} style={{ animation: "spin 1s linear infinite", color: "var(--primary)" }} /> Uploading...</>
-                          : <>📷 Click to Upload Photo</>}
-                        <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: "none" }} disabled={uploading} />
-                      </label>
-                      {/* OR paste URL */}
-                      <input placeholder="Or paste image URL..." value={form.image?.startsWith("data:") ? "" : form.image}
-                        onChange={e => setForm({ ...form, image: e.target.value })} style={{ ...inputStyle, fontSize: "0.8rem" }} />
-                    </div>
-                    {/* Preview */}
-                    {form.image && (
-                      <div style={{ position: "relative" }}>
-                        <div style={{
-                          width: 90, height: 90, borderRadius: "var(--radius-md)",
-                          background: "var(--background)", border: "1px solid var(--border)",
-                          overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center"
-                        }}>
-                          <img src={form.image} alt="preview"
-                            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                            onError={e => e.target.style.display = "none"} />
+                  <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.5rem", display: "block" }}>Product Images (Up to 5)</label>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {[0, 1, 2, 3, 4].map((index) => {
+                      const imgUrl = form.images ? form.images[index] : (index === 0 ? form.image : "");
+                      return (
+                        <div key={index} style={{ display: "grid", gridTemplateColumns: imgUrl ? "1fr auto" : "1fr", gap: "0.75rem", alignItems: "center" }}>
+                          <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flex: 1 }}>
+                            <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)", width: 55, flexShrink: 0 }}>Image {index + 1}:</span>
+                            <label style={{
+                              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem",
+                              padding: "0.5rem 0.8rem", border: "1px dashed var(--border)", borderRadius: "var(--radius-md)",
+                              cursor: "pointer", background: "var(--background)", fontSize: "0.78rem", color: "var(--text-secondary)",
+                              flexShrink: 0, width: 110
+                            }}>
+                              📷 {uploading ? "..." : "Upload"}
+                              <input type="file" accept="image/*" onChange={(e) => handleImageUploadIndex(index, e)} style={{ display: "none" }} disabled={uploading} />
+                            </label>
+                            <input placeholder="Or image URL..." value={imgUrl?.startsWith("data:") ? "" : imgUrl}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setForm(prev => {
+                                  const imgs = [...(prev.images || ["", "", "", "", ""])];
+                                  imgs[index] = val;
+                                  const mainImg = index === 0 ? val : (prev.image || val);
+                                  return { ...prev, images: imgs, image: mainImg };
+                                });
+                              }} style={{ ...inputStyle, flex: 1, fontSize: "0.8rem", padding: "0.45rem" }} />
+                          </div>
+                          {imgUrl && (
+                            <div style={{ position: "relative", flexShrink: 0 }}>
+                              <div style={{
+                                width: 38, height: 38, borderRadius: "var(--radius-sm)",
+                                background: "var(--background)", border: "1px solid var(--border)",
+                                overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center"
+                              }}>
+                                <img src={imgUrl} alt="preview" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                              </div>
+                              <button onClick={() => {
+                                setForm(prev => {
+                                  const imgs = [...(prev.images || ["", "", "", "", ""])];
+                                  imgs[index] = "";
+                                  const mainImg = index === 0 ? "" : prev.image;
+                                  return { ...prev, images: imgs, image: mainImg };
+                                });
+                              }} style={{ position: "absolute", top: -4, right: -4, width: 14, height: 14, borderRadius: "50%", background: "#ef4444", border: "none", color: "white", fontSize: "0.6rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+                            </div>
+                          )}
                         </div>
-                        <button onClick={() => setForm({ ...form, image: "" })}
-                          style={{ position: "absolute", top: -6, right: -6, width: 20, height: 20, borderRadius: "50%", background: "#ef4444", border: "none", color: "white", fontSize: "0.7rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
-                      </div>
-                    )}
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -274,6 +335,28 @@ export default function AdminPage() {
                   <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.35rem", display: "block" }}>Description (optional)</label>
                   <textarea rows={2} placeholder="Product description..." value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
                     style={{ ...inputStyle, resize: "vertical" }} />
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                  <div>
+                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.35rem", display: "block" }}>Design Highlight</label>
+                    <input placeholder="e.g. Side Panel / Graphics" value={form.design} onChange={e => setForm({ ...form, design: e.target.value })} style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.35rem", display: "block" }}>Fit Type</label>
+                    <input placeholder="e.g. Straight Fit / Athletic" value={form.fit} onChange={e => setForm({ ...form, fit: e.target.value })} style={inputStyle} />
+                  </div>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                  <div>
+                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.35rem", display: "block" }}>Fabric Blend</label>
+                    <input placeholder="e.g. 100% Polyester / Cotton Blend" value={form.fabric} onChange={e => setForm({ ...form, fabric: e.target.value })} style={inputStyle} />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.35rem", display: "block" }}>Wash Care</label>
+                    <input placeholder="e.g. Machine wash cold" value={form.washCare} onChange={e => setForm({ ...form, washCare: e.target.value })} style={inputStyle} />
+                  </div>
                 </div>
 
                 <label style={{ display: "flex", alignItems: "center", gap: "0.6rem", cursor: "pointer", padding: "0.75rem 1rem", background: "var(--background)", border: "1px solid var(--border)", borderRadius: "var(--radius-md)" }}>

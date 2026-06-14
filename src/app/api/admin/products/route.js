@@ -14,7 +14,7 @@ export async function GET() {
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { title, category, price, color, inStock, image, stock, description } = body;
+    const { title, category, price, color, inStock, image, images, stock, description, design, fit, fabric, washCare } = body;
     if (!title || !price) return NextResponse.json({ error: "Title and price are required" }, { status: 400 });
 
     const products = await readData("products.json");
@@ -25,9 +25,14 @@ export async function POST(req) {
       price,
       color: color || "#ff6b00",
       inStock: inStock !== undefined ? inStock : true,
-      image: image || "",
+      image: image || (images && images[0]) || "",
+      images: images || [image || "", "", "", "", ""],
       stock: parseInt(stock) || 0,
       description: description || "",
+      design: design || "",
+      fit: fit || "",
+      fabric: fabric || "",
+      washCare: washCare || "",
       sold: 0,
       createdAt: new Date().toISOString(),
     };

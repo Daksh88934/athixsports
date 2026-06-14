@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Star, ArrowRight, ShieldCheck, RefreshCw, Truck, ChevronDown, ChevronUp, MapPin } from "lucide-react";
+import { ShoppingBag, Star, ArrowRight, ShieldCheck, RefreshCw, Truck, ChevronDown, ChevronUp, MapPin, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 
@@ -10,10 +10,13 @@ export default function ProductDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const { addItem } = useCart();
+  
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState("M");
   const [adding, setAdding] = useState(false);
+  const [activeImage, setActiveImage] = useState("");
+  const [showSizeChart, setShowSizeChart] = useState(false);
   
   // Pincode checker states
   const [pincode, setPincode] = useState("");
@@ -30,6 +33,7 @@ export default function ProductDetailPage() {
         const found = data.products?.find((p) => p.id.toString() === id);
         if (found) {
           setProduct(found);
+          setActiveImage(found.image || (found.images && found.images[0]) || "");
         }
         setLoading(false);
       })
@@ -72,11 +76,55 @@ export default function ProductDetailPage() {
 
   // Calculate simulated prices
   const priceVal = parseFloat(product.price.toString().replace(/[^0-9.]/g, "")) || 499;
-  const originalPrice = Math.round(priceVal * 2.2); // 55% OFF approximately
+  const originalPrice = Math.round(priceVal * 2.2); // ~55% OFF
   const discountPercent = 55;
+
+  // Filter out any blank images
+  const validImages = product.images?.filter(img => img && img.trim() !== "") || [product.image || ""];
 
   return (
     <div style={{ minHeight: "100vh", paddingTop: "5rem" }}>
+      {/* Size Chart Modal */}
+      <AnimatePresence>
+        {showSizeChart && (
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 3000, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }}>
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
+              style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius-xl)", padding: "2rem", width: "100%", maxWidth: 500, position: "relative" }}>
+              <button onClick={() => setShowSizeChart(false)} style={{ position: "absolute", top: "1rem", right: "1rem", background: "none", border: "none", color: "var(--text)", cursor: "pointer" }}><X size={20} /></button>
+              <h3 style={{ fontWeight: 800, fontSize: "1.25rem", marginBottom: "1.5rem", color: "var(--primary)" }}>Jersey Size Chart</h3>
+              <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "center", fontSize: "0.9rem" }}>
+                <thead>
+                  <tr style={{ borderBottom: "2px solid var(--border)", fontWeight: 700 }}>
+                    <th style={{ padding: "0.75rem 0.5rem" }}>Size</th>
+                    <th style={{ padding: "0.75rem 0.5rem" }}>Chest (in)</th>
+                    <th style={{ padding: "0.75rem 0.5rem" }}>Length (in)</th>
+                    <th style={{ padding: "0.75rem 0.5rem" }}>Sleeve (in)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ["S", "38", "26.5", "8.0"],
+                    ["M", "40", "27.5", "8.5"],
+                    ["L", "42", "28.5", "9.0"],
+                    ["XL", "44", "29.5", "9.5"],
+                    ["XXL", "46", "30.5", "10.0"],
+                    ["3XL", "48", "31.5", "10.5"]
+                  ].map(([sz, chest, len, sleeve]) => (
+                    <tr key={sz} style={{ borderBottom: "1px solid var(--border)", color: "var(--text-secondary)" }}>
+                      <td style={{ padding: "0.75rem 0.5rem", fontWeight: 700, color: "var(--text)" }}>{sz}</td>
+                      <td style={{ padding: "0.75rem 0.5rem" }}>{chest}</td>
+                      <td style={{ padding: "0.75rem 0.5rem" }}>{len}</td>
+                      <td style={{ padding: "0.75rem 0.5rem" }}>{sleeve}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p style={{ fontSize: "0.78rem", color: "var(--text-secondary)", marginTop: "1rem", textAlign: "center" }}>* Note: Standard sportswear sizing. Fit may vary slightly based on fabric blend type.</p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="container" style={{ padding: "2rem 1.5rem" }}>
         {/* Breadcrumb */}
         <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: "2rem", display: "flex", gap: "0.5rem" }}>
@@ -86,7 +134,7 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Layout Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3.5rem" }} className="product-detail-grid">
+        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "3.5rem" }} className="product-detail-grid">
           
           {/* LEFT: Image Gallery */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -101,8 +149,8 @@ export default function ProductDetailPage() {
               position: "relative",
               overflow: "hidden"
             }}>
-              {product.image ? (
-                <img src={product.image} alt={product.title} style={{ width: "85%", height: "85%", objectFit: "contain" }} />
+              {activeImage ? (
+                <img src={activeImage} alt={product.title} style={{ width: "85%", height: "85%", objectFit: "contain" }} />
               ) : (
                 <div style={{ fontSize: "7rem" }}>👕</div>
               )}
@@ -112,22 +160,19 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Extra Angle Thumbnails */}
-            <div style={{ display: "flex", gap: "0.75rem" }}>
-              {[...Array(4)].map((_, i) => (
-                <div key={i} style={{
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+              {validImages.map((img, i) => (
+                <div key={i} onClick={() => setActiveImage(img)} style={{
                   width: 80, height: 80,
-                  border: i === 0 ? "2px solid var(--primary)" : "1px solid var(--border)",
+                  border: activeImage === img ? "2px solid var(--primary)" : "1px solid var(--border)",
                   borderRadius: "var(--radius-md)",
                   background: "var(--surface)",
                   cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  overflow: "hidden", opacity: i === 0 ? 1 : 0.6
+                  overflow: "hidden", opacity: activeImage === img ? 1 : 0.6,
+                  transition: "all 0.2s"
                 }}>
-                  {product.image ? (
-                    <img src={product.image} alt="preview" style={{ width: "90%", height: "90%", objectFit: "contain" }} />
-                  ) : (
-                    <span>👕</span>
-                  )}
+                  <img src={img} alt="thumbnail" style={{ width: "90%", height: "90%", objectFit: "contain" }} />
                 </div>
               ))}
             </div>
@@ -176,7 +221,7 @@ export default function ProductDetailPage() {
             <div style={{ marginBottom: "2rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
                 <span style={{ fontSize: "0.9rem", fontWeight: 600, color: "var(--text-secondary)" }}>Select Size:</span>
-                <span style={{ fontSize: "0.85rem", color: "var(--primary)", fontWeight: 600, cursor: "pointer" }}>Size Guide &gt;</span>
+                <span onClick={() => setShowSizeChart(true)} style={{ fontSize: "0.85rem", color: "var(--primary)", fontWeight: 600, cursor: "pointer" }}>Size Guide &gt;</span>
               </div>
               <div style={{ display: "flex", gap: "0.6rem" }}>
                 {["S", "M", "L", "XL", "XXL", "3XL"].map((size) => (
@@ -235,19 +280,19 @@ export default function ProductDetailPage() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
                 <div>
                   <span style={{ display: "block", fontSize: "0.78rem", color: "var(--text-secondary)" }}>Design</span>
-                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>Sports Teamwear</span>
+                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>{product.design || "Sports Teamwear"}</span>
                 </div>
                 <div>
                   <span style={{ display: "block", fontSize: "0.78rem", color: "var(--text-secondary)" }}>Fit</span>
-                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>Athletic Fit</span>
+                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>{product.fit || "Athletic Fit"}</span>
                 </div>
                 <div>
                   <span style={{ display: "block", fontSize: "0.78rem", color: "var(--text-secondary)" }}>Fabric</span>
-                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>High Performance Blend</span>
+                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>{product.fabric || "High Performance Blend"}</span>
                 </div>
                 <div>
                   <span style={{ display: "block", fontSize: "0.78rem", color: "var(--text-secondary)" }}>Wash Care</span>
-                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>Machine wash as per tag</span>
+                  <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>{product.washCare || "Machine wash as per tag"}</span>
                 </div>
               </div>
             </div>
@@ -319,7 +364,7 @@ export default function ProductDetailPage() {
 
       <style>{`
         .product-detail-grid {
-          grid-template-columns: 1.1fr 0.9fr;
+          grid-template-columns: 1.15fr 0.85fr;
         }
         @media (max-width: 900px) {
           .product-detail-grid {
