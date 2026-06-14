@@ -4,12 +4,12 @@ import { Phone, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer style={{ background: "var(--surface)", borderTop: "1px solid var(--border)", paddingTop: "3.5rem" }}>
+    <footer className="site-footer" style={{ background: "var(--surface)", borderTop: "1px solid var(--border)", paddingTop: "3.5rem" }}>
       <div className="container">
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2.5rem", marginBottom: "2.5rem" }}>
 
           {/* Brand */}
-          <div>
+          <div className="footer-col">
             <Link href="/" style={{ display: "inline-block", marginBottom: "1rem" }}>
               <img 
                 src="/logo.jpg" 
@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="footer-col">
             <h4 style={{ fontWeight: 700, marginBottom: "1.25rem", color: "var(--text)", fontSize: "0.95rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Quick Links</h4>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {[["Home", "/"], ["Shop", "/products"], ["About Us", "/about"], ["Contact Us", "/contact"]].map(([label, href]) => (
@@ -44,21 +44,21 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="footer-col">
             <h4 style={{ fontWeight: 700, marginBottom: "1.25rem", color: "var(--text)", fontSize: "0.95rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Contact Us</h4>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.85rem" }}>
-              <li style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem" }}>
+              <li style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem" }} className="contact-li">
                 <Phone size={18} style={{ color: "var(--primary)", flexShrink: 0, marginTop: 2 }} />
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
                   <a href="tel:+918755022067" style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>+91 8755022067</a>
                   <a href="tel:+919411262264" style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>+91 9411262264</a>
                 </div>
               </li>
-              <li style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+              <li style={{ display: "flex", alignItems: "center", gap: "0.6rem" }} className="contact-li">
                 <Mail size={18} style={{ color: "var(--primary)", flexShrink: 0 }} />
                 <a href="mailto:athixsports@gmail.com" style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>athixsports@gmail.com</a>
               </li>
-              <li style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem" }}>
+              <li style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem" }} className="contact-li">
                 <MapPin size={18} style={{ color: "var(--primary)", flexShrink: 0, marginTop: 2 }} />
                 <a href="https://maps.app.goo.gl/Y1QTCV3kGFzKgZP36" target="_blank" rel="noopener noreferrer"
                   style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>35-B, Street No.2, Nehru Nagar, Meerut</a>
@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
 
           {/* Follow Us */}
-          <div>
+          <div className="footer-col">
             <h4 style={{ fontWeight: 700, marginBottom: "1.25rem", color: "var(--text)", fontSize: "0.95rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Follow Us</h4>
             <a href="https://instagram.com/athixsports" target="_blank" rel="noopener noreferrer"
               style={{ display: "flex", alignItems: "center", gap: "0.75rem", color: "var(--text-secondary)", fontSize: "0.9rem", transition: "color 0.2s" }}
@@ -94,6 +94,34 @@ export default function Footer() {
           </p>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .footer-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+          }
+          .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+          }
+          .footer-col li {
+            text-align: center;
+            justify-content: center;
+          }
+          .contact-li {
+            flex-direction: column !important;
+            align-items: center !important;
+          }
+          .contact-li div, .contact-li a {
+            text-align: center;
+          }
+        }
+      `}</style>
     </footer>
   );
 }
