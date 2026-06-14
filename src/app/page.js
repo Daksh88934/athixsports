@@ -176,13 +176,26 @@ export default function HomePage() {
             border-right: none;
           }
           @media (max-width: 768px) {
-            .hero-grid { grid-template-columns: 1fr !important; }
+            .hero-grid { 
+              grid-template-columns: 1fr !important; 
+              text-align: center;
+            }
+            .hero-grid > div:first-child {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+            .hero-grid > div:first-child p {
+              margin-left: auto;
+              margin-right: auto;
+            }
           }
           @media (max-width: 600px) {
             .hero-stats {
               display: grid !important;
               grid-template-columns: repeat(2, 1fr);
               gap: 1.5rem;
+              width: 100%;
             }
             .hero-stats-item {
               border-right: none !important;

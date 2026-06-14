@@ -36,13 +36,12 @@
 /* Theme Adaptive Logo Styling */
 .theme-logo {
   mix-blend-mode: screen;
-  filter: drop-shadow(0px 2px 6px rgba(255,107,0,0.5)) drop-shadow(0px 4px 12px rgba(255,107,0,0.25));
   transition: transform 0.3s ease;
   cursor: pointer;
 }
 
 [data-theme="light"] .theme-logo {
-  filter: invert(1) drop-shadow(0px 2px 6px rgba(255,107,0,0.3)) drop-shadow(0px 4px 12px rgba(255,107,0,0.15));
+  filter: invert(1);
   mix-blend-mode: multiply;
 }
 

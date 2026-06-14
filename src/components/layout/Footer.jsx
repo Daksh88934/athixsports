@@ -16,7 +16,7 @@ export default function Footer() {
                 alt="ATHIX" 
                 className="theme-logo"
                 style={{ 
-                  height: 40,
+                  height: 52,
                   transition: "transform 0.3s ease"
                 }} 
                 onMouseEnter={e => e.target.style.transform = "scale(1.05)"}

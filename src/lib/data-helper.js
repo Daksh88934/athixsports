@@ -2,7 +2,8 @@ import fs from "fs/promises";
 import fs_sync from "fs";
 import path from "path";
 
-const memoryStore = {};
+global.memoryStore = global.memoryStore || {};
+const memoryStore = global.memoryStore;
 
 export async function readData(filename) {
   if (process.env.VERCEL) {

@@ -60,7 +60,7 @@ export default function Navbar() {
             alt="ATHIX" 
             className="theme-logo"
             style={{ 
-              height: 40, 
+              height: 52, 
               display: "block",
               transition: "transform 0.3s ease",
             }} 

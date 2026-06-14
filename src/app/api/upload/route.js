@@ -14,16 +14,23 @@ export async function POST(req) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Generate unique name and path in public/uploads
-    const ext = file.name ? path.extname(file.name) : ".jpg";
-    const filename = `${Date.now()}${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
+    let imageUrl = "";
 
-    // Ensure directory exists
-    await fs.mkdir(uploadDir, { recursive: true });
-    await fs.writeFile(path.join(uploadDir, filename), buffer);
+    if (process.env.VERCEL) {
+      // Vercel read-only filesystem -> fallback to base64 data URL
+      const base64 = buffer.toString("base64");
+      const mimeType = file.type || "image/jpeg";
+      imageUrl = `data:${mimeType};base64,${base64}`;
+    } else {
+      // Local or VPS persistent filesystem -> save to public/uploads
+      const ext = file.name ? path.extname(file.name) : ".jpg";
+      const filename = `${Date.now()}${ext}`;
+      const uploadDir = path.join(process.cwd(), "public", "uploads");
 
-    const imageUrl = `/uploads/${filename}`;
+      await fs.mkdir(uploadDir, { recursive: true });
+      await fs.writeFile(path.join(uploadDir, filename), buffer);
+      imageUrl = `/uploads/${filename}`;
+    }
 
     // If productId given, update that product's image
     if (productId) {
