@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { readData } from "@/lib/data-helper";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const products = await readData("products.json");
